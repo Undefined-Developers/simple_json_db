@@ -3,7 +3,6 @@ package simple_json_db
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -48,8 +47,10 @@ func (db *SimpleDB) init() {
 	}
 	if db.debugEnabled {
 		fmt.Println("[SimpleDB] File path set")
+		fmt.Printf("[SimpleDB] File path is: %s\n", db.filePath)
 	}
-	fileContent, err := ioutil.ReadFile(db.filePath)
+
+	fileContent, err := os.ReadFile(db.filePath)
 	if err == nil {
 		json.Unmarshal(fileContent, &db.data)
 	}
@@ -63,7 +64,7 @@ func (db *SimpleDB) writeDb() {
 		fmt.Println("[SimpleDB] Writing database to file")
 	}
 	fileContent, _ := json.Marshal(db.data)
-	ioutil.WriteFile(db.filePath, fileContent, 0644)
+	os.WriteFile(db.filePath, fileContent, 0644)
 	db.timeoutRemove()
 }
 
