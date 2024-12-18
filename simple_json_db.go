@@ -121,11 +121,14 @@ func (db *SimpleDB) Set(key, value string) {
 	db.data[key] = value
 }
 
-func (db *SimpleDB) Get(key string) string {
+func (db *SimpleDB) Get(key string) *string {
 	if db.debugEnabled {
 		fmt.Printf("[SimpleDB] Returning data for %s\n", key)
 	}
-	return db.data[key]
+	if value, exists := db.data[key]; exists {
+		return &value
+	}
+	return nil
 }
 
 func (db *SimpleDB) Delete(key string) {
