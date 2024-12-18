@@ -110,7 +110,7 @@ func (db *SimpleDB) writeDb() {
 	db.timeoutRemove()
 }
 
-func (db *SimpleDB) Set(key, value string) {
+func (db *SimpleDB) Set(key string, value interface{}) {
 	if db.debugEnabled {
 		fmt.Printf("[SimpleDB] Setting data for %s\n", key)
 	}
@@ -118,7 +118,7 @@ func (db *SimpleDB) Set(key, value string) {
 		db.timeoutRemove()
 	}
 	db.timeoutSet()
-	db.data[key] = value
+	db.data[key] = fmt.Sprintf("%v", value)
 }
 
 func (db *SimpleDB) Get(key string) *string {
