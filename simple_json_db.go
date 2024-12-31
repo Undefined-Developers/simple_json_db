@@ -14,7 +14,7 @@ type SimpleDB struct {
 	filePath     string
 	debugEnabled bool
 	timeout      *time.Timer
-	delay        time.Duration // Add delay field (in milliseconds)
+	delay        time.Duration
 }
 
 func NewSimpleDB(options map[string]interface{}) *SimpleDB {
@@ -22,7 +22,7 @@ func NewSimpleDB(options map[string]interface{}) *SimpleDB {
 		data:         make(map[string]string),
 		filePath:     "./db.json",
 		debugEnabled: false,
-		delay:        5 * time.Second, // Default delay 1 second (1000 milliseconds)
+		delay:        5 * time.Second,
 	}
 
 	if file, ok := options["file"].(string); ok {
@@ -31,7 +31,7 @@ func NewSimpleDB(options map[string]interface{}) *SimpleDB {
 	if debug, ok := options["debug"].(bool); ok {
 		db.debugEnabled = debug
 	}
-	if delay, ok := options["delay"].(int); ok { // Fetch delay from options (in milliseconds)
+	if delay, ok := options["delay"].(int); ok {
 		db.delay = time.Duration(delay) * time.Millisecond
 	}
 
@@ -172,7 +172,7 @@ func (db *SimpleDB) timeoutSet() {
 	if db.debugEnabled {
 		fmt.Println("[SimpleDB] Setting timeout")
 	}
-	db.timeout = time.AfterFunc(db.delay, db.writeDb) // Use the custom delay
+	db.timeout = time.AfterFunc(db.delay, db.writeDb)
 }
 
 func (db *SimpleDB) timeoutRemove() {
