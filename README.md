@@ -18,37 +18,42 @@ Here is an example of how to use SimpleDB:
 package main
 
 import (
-    "fmt"
-    "github.com/Undefined-Developers/simple_json_db"
+	"fmt"
+	"github.com/Undefined-Developers/simple_json_db"
 )
 
 func main() {
-    // Create a new SimpleDB instance with options
-    options := map[string]interface{}{
-        "file":  "mydb.json",
-        "debug": true,
-    }
-    db := simple_json_db.NewSimpleDB(options)
+	// Create a new SimpleDB instance with options
+	options := map[string]interface{}{
+		"file":  "mydb.json",
+		"debug": true,
+		"delay": 2000, // Set delay to 2000 milliseconds (2 seconds)
+	}
+	db := simple_json_db.NewSimpleDB(options)
 
-    // Set values
-    db.Set("name", "John Doe")
-    db.Set("age", 30)
+	// Set values
+	db.Set("name", "John Doe")
+	db.Set("age", 30)
 
-    // Get values
-    name := db.Get("name")
-    age := db.Get("age")
-    fmt.Printf("Name: %s, Age: %d\n", name, age)
+	// Get values
+	name := db.Get("name")
+	age := db.Get("age")
+	fmt.Printf("Name: %s, Age: %d\n", name, age)
 
-    // Get all keys
-    keys := db.Keys()
-    fmt.Println("Keys:", keys)
+	// Get all keys
+	keys := db.Keys()
+	fmt.Println("Keys:", keys)
 
-    // Delete a value
-    db.Delete("age")
+	// Check if a key exists
+	exists := db.Has("name")
+	fmt.Printf("Does 'name' exist? %v\n", exists)
 
-    // Check deletion
-    age = db.Get("age")
-    fmt.Printf("Age after deletion: %v\n", age)
+	// Delete a value
+	db.Delete("age")
+
+	// Check deletion
+	age = db.Get("age")
+	fmt.Printf("Age after deletion: %v\n", age)
 }
 ```
 
@@ -75,6 +80,10 @@ Deletes a value from the database.
 ### `Keys() []string`
 
 Returns all keys in the database.
+
+### `Has(key string) bool`
+
+Checks if a key exists in the database. Returns `true` if the key exists, otherwise `false`.
 
 ## License
 
